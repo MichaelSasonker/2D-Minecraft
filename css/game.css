@@ -1,0 +1,98 @@
+@font-face {
+    src: url(../fonts/Minecrafter.Alt.ttf);
+    font-family: MineAlt;
+}
+
+@font-face {
+    src: url(../fonts/Minecrafter.Reg.ttf);
+    font-family: MineReg;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    font-size: 24px;
+    color: #f3f3f3;
+    text-align: center;
+    font-family: 'MineAlt';
+}
+
+.main-container {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.5fr 6fr;
+    background: #f3f3f3;
+    position: relative;
+}
+
+.side-bar {
+    background: #0f0f0f;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-container {
+    border: 1px solid #000;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(var(--game-cols), auto);
+    grid-template-rows: repeat(var(--game-rows), auto);
+    grid-gap: 0;
+    line-height: 0;
+}
+
+.tile {
+    height: 40px;
+    width: 40px;
+    /* border: 0.5px solid #333; */
+    background: #8ee3ff;
+}
+
+.tile:hover,
+.ground-tile:hover,
+.grass-tile:hover,
+.stone-tile:hover,
+.tree-wood-tile:hover,
+.tree-leaves-tile:hover,
+.cloud-tile:hover {
+    border: 1px solid #fff;
+}
+
+.ground-tile {
+    background: url('../img/dirt.png') center center/cover;
+}
+
+.grass-tile {
+    background: url('../img/grass.png') center center/cover;
+}
+
+
+.stone-tile {
+    background: url('../img/rock.png') center center/cover;
+}
+
+.tree-leaves-tile {
+    background: url('../img/tree-leaves.png') center center/cover;
+}
+
+.tree-wood-tile {
+    background: url('../img/tree-1.png') center center/cover;;
+}
+
+.cloud-tile {
+    background: #fff;
+}
+
+/* .sun-tile {} */
