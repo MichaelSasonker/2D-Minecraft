@@ -103,6 +103,7 @@ body {
     text-align: center;
     border: 2px solid #f3f3f3;
     padding: 5px;
+    position: relative;
 }
 
 .tools-des img {
@@ -117,7 +118,13 @@ body {
 }
 
 .tile-cont {
+    background: transparent;
     border: 2px solid #fff;
     height: 40px;
     width: 40px;
 }
+
+.tile-cont:hover {
+    border: 1px solid #fcb36b;
+}
+

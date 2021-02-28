@@ -10,6 +10,8 @@ let shovel = document.querySelector('.shovel');
 let axe = document.querySelector('.axe');
 let inventory = document.querySelector('.inventory');
 let tools = document.querySelectorAll('.tools-des');
+const toolsArr = ['pickaxe', 'axe', 'shovel'];
+let tileKindArr = ['ground-tile', 'grass-tile', 'stone-tile', 'tree-leaves-tile', 'tree-wood-tile', 'cloud-tile'];
 
 
 let gameHight = window.innerHeight;
@@ -18,7 +20,13 @@ let gameWidth = gameCont.clientWidth;
 let rows = Math.floor(gameHight / TILE_HEIGHT);
 let cols = Math.floor(gameWidth / TILE_WIDTH);
 
+
 function AddMatrix() {
+
+    if (rows != 25 || cols != 41) {
+        rows = 25;
+        cols = 41;
+    }
 
     gameCont.style.setProperty('--game-cols', cols);
     gameCont.style.setProperty('--game-rows', rows);
@@ -115,48 +123,155 @@ function SetCloud(matrix) {
     }
 }
 
-// let toolsArr = [];
-// function AddToolToArr(arr) {
-//     for (let i = 0; i < tools.length - 2; ++i) {
-//         arr[i].push(tools[i]);
-//     }
-//     console.log('toolsArr is: ', arr);
-// }
 
-pickaxe.addEventListener('click', (e) => {
+function PickaxeFunction(e) {
     if (shovel.classList.contains('current-tool'))
         shovel.classList.remove('current-tool');
-    else if (axe.classList.contains('current-tool')) 
+    else if (axe.classList.contains('current-tool'))
+        axe.classList.remove('current-tool');
+    else if (inventory.classList.contains('current-tool'))
+        inventory.classList.remove('current-tool');
+
+    e.target.classList.add('current-tool');
+
+    gameCont.addEventListener('click', tile => {
+        let tileKindRes = tileKindArr.filter(tileKind => {
+            if (tile.target.classList.contains(tileKind)) {
+                return (tileKind);
+            }
+        });
+
+        if (tileKindRes[0] == 'stone-tile') {
+            tile.target.classList.remove('stone-tile');
+            if (inventory.classList[2]) {
+                inventory.classList.remove(inventory.classList[2]);
+            }
+            inventory.classList.add('stone-tile');
+        }   
+
+    }, {once: true});
+    
+}
+
+pickaxe.addEventListener('click', PickaxeFunction);
+
+function ShovelFunction(e) {
+    if (pickaxe.classList.contains('current-tool'))
+        pickaxe.classList.remove('current-tool');
+    else if (axe.classList.contains('current-tool'))
+        axe.classList.remove('current-tool');
+    else if (inventory.classList.contains('current-tool'))
+        inventory.classList.remove('current-tool');    
+
+    e.target.classList.add('current-tool');
+
+    gameCont.addEventListener('click', tile => {
+        let tileKindRes = tileKindArr.filter(tileKind => {
+            if (tile.target.classList.contains(tileKind)) {
+                return (tileKind);
+            }
+        });
+
+        if (tileKindRes[0] == 'ground-tile') {
+            tile.target.classList.remove('ground-tile');
+            if (inventory.classList[2]) {
+                inventory.classList.remove(inventory.classList[2]);
+            }
+            inventory.classList.add('ground-tile');
+        }
+        else if (tileKindRes[0] == 'grass-tile') {
+            tile.target.classList.remove('grass-tile');
+            if (inventory.classList[2]) {
+                inventory.classList.remove(inventory.classList[2]);
+            }
+            inventory.classList.add('grass-tile');
+        } 
+    }, {once: true});
+}
+
+shovel.addEventListener('click', ShovelFunction);
+
+
+function AxeFunction(e) {
+    if (shovel.classList.contains('current-tool'))
+        shovel.classList.remove('current-tool');
+    else if (pickaxe.classList.contains('current-tool'))
+        pickaxe.classList.remove('current-tool');
+    else if (inventory.classList.contains('current-tool'))
+        inventory.classList.remove('current-tool');
+
+    e.target.classList.add('current-tool');
+
+    gameCont.addEventListener('click', tile => {
+        let tileKindRes = tileKindArr.filter(tileKind => {
+            if (tile.target.classList.contains(tileKind)) {
+                return (tileKind);
+            }
+        });
+
+        if (tileKindRes[0] == 'tree-wood-tile') {
+            tile.target.classList.remove('tree-wood-tile');
+            if (inventory.classList[2]) {
+                inventory.classList.remove(inventory.classList[2]);
+            }
+            inventory.classList.add('tree-wood-tile');
+        }
+        else if (tileKindRes[0] == 'tree-leaves-tile') {
+            tile.target.classList.remove('tree-leaves-tile');
+            if (inventory.classList[2]) {
+                inventory.classList.remove(inventory.classList[2]);
+            }
+            inventory.classList.add('tree-leaves-tile');
+        }
+
+    }, {once: true});
+
+    
+}
+axe.addEventListener('click', AxeFunction);
+
+
+function InventoryFunction(e) {
+    if (shovel.classList.contains('current-tool'))
+        shovel.classList.remove('current-tool');
+    else if (pickaxe.classList.contains('current-tool'))
+        pickaxe.classList.remove('current-tool');
+    else if (axe.classList.contains('current-tool'))
         axe.classList.remove('current-tool');
 
-    pickaxe.classList.add('current-tool');   
-});
+    e.target.classList.add('current-tool');
 
-shovel.addEventListener('click', (e) => {
-    if (pickaxe.classList.contains('current-tool')) 
-        pickaxe.classList.remove('current-tool');
-    else if (axe.classList.contains('current-tool')) 
-        axe.classList.remove('current-tool');   
+    let chosenTileKind = [];
+    chosenTileKind = tileKindArr.filter(tileKind => {
+        if (Object.values(e.target.classList).indexOf(tileKind) > -1)
+        {
+            return (tileKind);
+        }
+    }); 
 
-    shovel.classList.add('current-tool'); 
-});
+    gameCont.addEventListener('click', (tile) => {
+    
+        if (!Object.values(tile.target.classList).includes('ground-tile') &&
+            !Object.values(tile.target.classList).includes('grass-tile') &&
+            !Object.values(tile.target.classList).includes('stone-tile') &&
+            !Object.values(tile.target.classList).includes('tree-leaves-tile') &&
+            !Object.values(tile.target.classList).includes('tree-wood-tile') &&
+            !Object.values(tile.target.classList).includes('cloud-tile')) {
 
-axe.addEventListener('click', (e) => {
-    if (shovel.classList.contains('current-tool')) 
-        shovel.classList.remove('current-tool');
-    else if (pickaxe.classList.contains('current-tool')) 
-        pickaxe.classList.remove('current-tool');
+            e.target.classList.remove(chosenTileKind[0]);
+            tile.target.classList.add(chosenTileKind[0]);
+        }
+    
+    }, {once: true})
+}
 
-    axe.classList.add('current-tool');   
-});
-
+inventory.addEventListener('click', InventoryFunction);
 
 
 /*-------------------------------------------------------------------*/
 function MainFunction() {
     'use strict';
     let gameArrRes = AddMatrix();
-    console.log(gameArrRes);
 
     SetGround(gameArrRes);
     SetStone(gameArrRes);
@@ -164,7 +279,5 @@ function MainFunction() {
     SetTreeWood(gameArrRes);
     SetTreeleaves(gameArrRes);
     SetCloud(gameArrRes);
-
-    // AddToolToArr(toolsArr);
 
 }; MainFunction();
